@@ -1,0 +1,5 @@
+sequelize model:create --name User --attributes 'username:string password:string full_name:string email_address:string zip_code:integer last_login:date user_image:string'
+
+sequelize model:create --name Product --attributes 'product_name:string product_qty:integer product_type:string product_image:string product_description:string user_description:string listing_expiration:string'
+
+sequelize model:cerate --name Deal --attributes 'message:text'
