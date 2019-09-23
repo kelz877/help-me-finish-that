@@ -1,0 +1,73 @@
+const express = require('express')
+const router = express.Router()
+const models = require('../models')
+const bcrypt = require('bcrypt')
+const saltRounds = 10
+
+
+
+//user registration route
+router.post('/register', async(req, res) => {
+    let username = req.body.username
+    let password = req.body.password
+    let full_name = req.body.full_name
+    let email_address = req.body.email_address
+    let zip_code = req.body.zip_code
+    let user_image = req.body.user_image
+
+    models.User.findOne({
+        where: {
+            username: username
+        }
+    }).then(user =>{
+        if(user){
+            res.send({message: "user already exists"})
+        }else{
+            bcrypt.hash(password, saltRounds).then(function(hash){
+                models.User.create({
+                    username: username,
+                    password: hash,
+                    full_name: full_name,
+                    email_address: email_address,
+                    zip_code: zip_code,
+                    last_login: Date.now(),
+                    user_image: user_image
+                }).then(user => {
+                    res.send({message: "User created!"})
+                }).catch(e=>console.log(e))
+            })
+        }
+    }).catch(e=>console.log(e))
+
+})
+
+//user login route
+router.post('/login', (req, res) => {
+    let username = req.body.username
+    let password = req.body.password 
+
+    models.User.findOne({
+        where: {
+            username: username
+        },
+        attributes:['id', 'password']
+    }).then(user => {
+        if(user){
+            bcrypt.compare(password, user.get('password')).then((response) => {
+                if(response){
+                    console.log(response)
+                    res.send({message: "You are logged in"})
+                }else{
+                    res.send({message: "Wrong username or password"})
+                }
+            })
+        }else{
+            res.send({username: "Unable to login"})
+        }
+    })
+    .catch(e=> console.log(e))
+})
+
+
+
+module.exports = router
