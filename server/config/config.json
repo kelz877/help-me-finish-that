@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "postgres",
-    "password": null,
-    "database": "finishthat",
-    "host": "127.0.0.1",
+    "username": "pxhofmkc",
+    "password": "WH3ncD43UiYLlSH_uyDvxcKiwr13dQMK",
+    "database": "pxhofmkc",
+    "host": "salt.db.elephantsql.com",
     "dialect": "postgres",
     "operatorsAliases": false
   },
