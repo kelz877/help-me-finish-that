@@ -1,10 +1,10 @@
 import React, {useState} from 'react'
 import axios from 'axios'
-//import {connect} from 'react-redux'
+import {connect} from 'react-redux'
 import {setAuthenticationHeader} from './utils/authenticate'
 
 
-function Login(){
+function Login(props){
     const [user, setUser] = useState({username: '', password:''})
 
     const handleLogin = () => {
@@ -20,6 +20,11 @@ function Login(){
             //set defauly axios header
             setAuthenticationHeader(token)
             console.log(response.data)
+            //console.log(response.data.user_id)
+            const user_id = response.data.user_id
+            props.getUserId(user_id)
+        }).then(response => {
+            props.history.push('/product-display')
         })
     }
     const handleTextChange = (e) => {
@@ -28,6 +33,7 @@ function Login(){
             [e.target.name]: e.target.value
         })
     }
+
 
     return (
         <div>
@@ -42,4 +48,11 @@ function Login(){
     )
 }
 
-export default Login
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getUserId: (user_id) => dispatch({payload: user_id, type: 'LOGGED_IN_USER_ID'})
+    }
+}
+
+
+export default connect(null, mapDispatchToProps)(Login)
