@@ -94,7 +94,8 @@ router.post('/login', (req, res) => {
             bcrypt.compare(password, user.get('password')).then((response) => {
                 if(response){
                     var token = jwt.sign({username: username},process.env.JWT_SECRET_KEY);
-                    res.json({token: token})
+                    var user_id = user.id
+                    res.json({token: token, user_id: user_id})
                     // console.log(response)
                     // res.send({message: "You are logged in!"})
                 }else{
@@ -107,6 +108,20 @@ router.post('/login', (req, res) => {
     })
     .catch(e=> console.log(e))
 })
+
+//display user's products
+router.get('/user-products', (req, res) => {
+    let user_id = req.body.user_id
+    models.Product.findAll({
+        where: {
+            user_id: user_id
+        }
+    }).then(products =>{
+        res.json(products)
+    })
+})
+
+
 
 
 
