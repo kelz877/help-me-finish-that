@@ -110,8 +110,8 @@ router.post('/login', (req, res) => {
 })
 
 //display user's products
-router.get('/user-products', (req, res) => {
-    let user_id = req.body.user_id
+router.get('/user-products/:user_id', (req, res) => {
+    let user_id = req.params.user_id
     models.Product.findAll({
         where: {
             user_id: user_id

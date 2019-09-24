@@ -34,9 +34,9 @@ router.get('/', (req, res) => {
 
 
 //update product
-router.post('/update-product', (req, res) => {
+router.post('/update-product/:id', (req, res) => {
     //need to add user authentication
-    const id = req.body.id
+    const id = req.params.id
     const product_name = req.body.product_name
     const product_qty = req.body.product_qty
     const product_type = req.body.product_type
@@ -83,7 +83,7 @@ router.get('/product-sort', (req, res) => {
     })
 })
 
-//product by id
+//product by product id
 router.get('/:id', (req, res) => {
     let product_id = req.params.id
     models.Product.findOne({
