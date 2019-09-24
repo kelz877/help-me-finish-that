@@ -3,7 +3,39 @@ const router = express.Router()
 const models = require('../models')
 const bcrypt = require('bcrypt')
 const saltRounds = 10
+const cors = require('cors')
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
+router.use(cors())
+router.use(express.json())
+
+//Middleware 
+// router.all('/api/*',(req,res,next) => {
+//     // middle ware 
+//     console.log('middleware called...')
+//     let headers = req.headers['authorization']
+
+//     if(headers) {
+//         const token = headers.split(' ')[1]
+//         var decoded = jwt.verify(token, 'someprivatekey');
+//         if(decoded) {
+//             const username = decoded.username 
+//             // check in the database if the user exists 
+//             const persistedUser = users.find(u => u.username == username)
+//             if(persistedUser) {
+//                 next() 
+//             } else {
+//                 res.json({error: 'Invalid credentials'})
+//             }
+//         } else {
+//             res.json({error: 'Unauthorized access'})
+//         }
+//     } else {
+//         res.json({error: 'Unauthorized access'})
+//     }
+// }
+// )
 
 
 //user registration route
@@ -41,6 +73,12 @@ router.post('/register', async(req, res) => {
 
 })
 
+router.get('/', (req, res) => {
+    models.User.findAll().then(users => {
+        console.log("looking for users")
+        res.json(users)
+    })
+})
 //user login route
 router.post('/login', (req, res) => {
     let username = req.body.username
@@ -55,8 +93,10 @@ router.post('/login', (req, res) => {
         if(user){
             bcrypt.compare(password, user.get('password')).then((response) => {
                 if(response){
-                    console.log(response)
-                    res.send({message: "You are logged in"})
+                    var token = jwt.sign({username: username},process.env.JWT_SECRET_KEY);
+                    res.json({token: token})
+                    // console.log(response)
+                    // res.send({message: "You are logged in!"})
                 }else{
                     res.send({message: "Wrong username or password"})
                 }
