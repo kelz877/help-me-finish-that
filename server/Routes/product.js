@@ -2,7 +2,9 @@ const express = require('express')
 const router = express.Router()
 const models = require('../models')
 router.use(express.json())
-
+const cors = require('cors')
+router.use(cors())
+router.use(express.json())
 
 //add product
 router.post('/add-product', (req, res) => {
@@ -81,6 +83,17 @@ router.get('/product-sort', (req, res) => {
     })
 })
 
-//keyword search
+//product by id
+router.get('/:id', (req, res) => {
+    let product_id = req.params.id
+    models.Product.findOne({
+        where: {
+        id: product_id
+        }
+    }).then(product => {
+        res.json(product)
+    })
+})
+
 
 module.exports = router
