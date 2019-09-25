@@ -97,6 +97,7 @@ function UserProductDisplay(props){
                                     Update Product
                                 </Button></Link>
                                 <Button size="small" color="primary" onClick={() => deleteProduct(product.id)}>Delete Product</Button>
+                                <Button size="small" color="primary" >Archive Product</Button>
                             </CardActions>
                         </Card>
                     </Grid>
