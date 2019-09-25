@@ -1,78 +1,57 @@
-import React, {Component} from 'react'
+import React, {useState} from 'react'
 import {withRouter} from 'react-router-dom'
 
-class AddProduct extends Component{
-    constructor(props){
-        super(props)
+function AddProduct(props){
 
-        this.state = {
-            product_name: '',
-            product_qty: '',
-            product_type: '',
-            product_image: '',
-            product_description: '',
-            user_description: '',
-            lisitng_expiration: '',
-            user_id: ''
+    const [product, setProduct] = useState({product_name: '', product_qty: '', product_type: '', product_image: '', product_description: '', user_description: '', lisitng_expiration: '', user_id: ''})
 
-        }
-    }
-    handleSave = () => {
+
+    const handleSave = () => {
         fetch('http://localhost:8080/product/add-product', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                product_name: this.state.product_name,
-                product_qty: this.state.product_qty,
-                product_type: this.state.product_type,
-                product_image: this.state.product_image,
-                product_description: this.state.product_description,
-                user_description: this.state.user_description,
-                lisitng_expiration: this.state.lisitng_expiration,
-                user_id: this.state.user_id
-            })
-        }).then(response => {
-            this.setState({
-                product_name: '',
-                product_qty: '',
-                product_type: '',
-                product_image: '',
-                product_description: '',
-                user_description: '',
-                lisitng_expiration: '',
-                user_id: ''
+                product_name: product.product_name,
+                product_qty: product.product_qty,
+                product_type: product.product_type,
+                product_image: product.product_image,
+                product_description: product.product_description,
+                user_description: product.user_description,
+                lisitng_expiration: product.lisitng_expiration,
+                user_id: product.user_id
             })
         })
         .then(response => {
-            this.props.history.push("/user-products")
+            props.history.push("/user-products")
         })
     }
-    handleTextBoxChange = (e) => {
-        this.setState({
+    const handleTextBoxChange = (e) => {
+        setProduct({
+            ...product,
             [e.target.name]: e.target.value
         })
     }
-    render() {
+    
         return (
             <div>
                 <div>Please enter some information about the product you would like help finishing. The more descriptive you can be, the better!</div>
-                <input type="text" name='product_name' placeholder="Product Name" value={this.state.product_name} onChange={this.handleTextBoxChange} />
-                <input type="number" name='product_qty' placeholder="Quantity" value={this.state.product_qty} onChange={this.handleTextBoxChange} />
-                <input type="text" name='product_type' placeholder="Product Type" value={this.state.product_type} onChange={this.handleTextBoxChange} />
-                <input type="text" name='product_image' placeholder="Product Image" value={this.state.product_image} onChange={this.handleTextBoxChange} />
-                <input type="text" name='product_description' placeholder="Product Description" value={this.state.product_description} onChange={this.handleTextBoxChange} />
-                <input type="text" name='user_description' placeholder="User Description" value={this.state.user_description} onChange={this.handleTextBoxChange} />
-                <input type="text" name='lisitng_expiration' placeholder="Listing Expiration" value={this.state.lisitng_expiration} onChange={this.handleTextBoxChange} />
+                <input type="text" name='product_name' placeholder="Product Name"  onChange={(e) => handleTextBoxChange(e)} />
+                <input type="number" name='product_qty' placeholder="Quantity"  onChange={(e) => handleTextBoxChange(e)} />
+                <input type="text" name='product_type' placeholder="Product Type"  onChange={(e) => handleTextBoxChange(e)} />
+                <input type="text" name='product_image' placeholder="Product Image" onChange={(e) => handleTextBoxChange(e)} />
+                <input type="text" name='product_description' placeholder="Product Description"  onChange={(e) => handleTextBoxChange(e)} />
+                <input type="text" name='user_description' placeholder="User Description"  onChange={(e) => handleTextBoxChange(e)} />
+                <input type="text" name='lisitng_expiration' placeholder="Listing Expiration" onChange={(e) => handleTextBoxChange(e)} />
                 {/* need to get user id from global state */}
-                <input type="number" name='user_id' placeholder="user id" value={this.state.user_id} onChange={this.handleTextBoxChange} />
+                <input type="number" name='user_id' placeholder="user id" onChange={(e) => handleTextBoxChange(e)} />
 
-                <button onClick={this.handleSave}>Add Product</button>
+                <button onClick={() => handleSave()}>Add Product</button>
 
             </div>
         )
-    }
+    
 
 }
-export default withRouter(AddProduct)
+export default AddProduct
