@@ -42,54 +42,34 @@ function Menu(props){
                 <CssBaseline />
                 <Container maxWidth="lg">
                     <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>
-                        <NavLink
+                        {props.authenticated ? <NavLink
                             
                             variant="body2"
                             to='/product-display'
                             className={classes.toolbarLink}
                         >
                             Products
-                        </NavLink>
-                        <NavLink
+                        </NavLink> : null}
+                        {props.authenticated ? <NavLink
                             
                             variant="body2"
                             to='/user-products'
                             className={classes.toolbarLink}
                         >
                             My Products
-                        </NavLink>
-                        <NavLink
+                        </NavLink> : null}
+                        {props.authenticated ? <NavLink
                             
                             variant="body2"
                             to='/add-product'
                             className={classes.toolbarLink}
                         >
                             Add Product
-                        </NavLink>
-                        <NavLink
-                            
-                            variant="body2"
-                            to='/coming-soon'
-                            className={classes.toolbarLink}
-                        >
-                            Produce
-                        </NavLink>
-                        <NavLink
-                            
-                            variant="body2"
-                            to='/coming-soon'
-                            className={classes.toolbarLink}
-                        >
-                            Tasks
-                        </NavLink>
-                        <NavLink
-                            
-                            variant="body2"
-                            to='/coming-soon'
-                            className={classes.toolbarLink}
-                        >
-                            User Discussion
-                        </NavLink>
+                        </NavLink> : null}
+      
+                        {props.authenticated ? <NavLink variant="body2" className={classes.toolbarLink} to='/'>Messages</NavLink> : null}
+
+                        {props.authenticated ? <NavLink variant="body2" className={classes.toolbarLink} to='/'>Archived Products</NavLink> : null}
                     </Toolbar>
                 </Container>
 
