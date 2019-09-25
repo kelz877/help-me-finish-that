@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {withRouter} from 'react-router-dom'
 
-class AddProduct extends Component{
+class UpdateProduct extends Component{
     constructor(props){
         super(props)
 
@@ -14,11 +14,25 @@ class AddProduct extends Component{
             user_description: '',
             lisitng_expiration: '',
             user_id: ''
-
         }
+        this.fetchProduct()
     }
-    handleSave = () => {
-        fetch('http://localhost:8080/product/add-product', {
+
+    fetchProduct = () => {
+        let id = this.props.match.params.id
+        console.log(id)
+        fetch(`http://localhost:8080/product/${id}`)
+        .then(response => response.json())
+        .then(json => {
+            console.log(json)
+            this.setState({
+                ...json
+            })
+        })
+    }
+
+    handleUpdate = () => {
+        fetch('http://localhost:8080/product/update-product',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -46,18 +60,19 @@ class AddProduct extends Component{
             })
         })
         .then(response => {
-            this.props.history.push("/user-products")
+            this.props.history.push('/user-products')
         })
     }
     handleTextBoxChange = (e) => {
         this.setState({
-            [e.target.name]: e.target.value
+            [e.target.name] : e.target.value
         })
     }
+
     render() {
         return (
             <div>
-                <div>Please enter some information about the product you would like help finishing. The more descriptive you can be, the better!</div>
+                                <div>Update Product</div>
                 <input type="text" name='product_name' placeholder="Product Name" value={this.state.product_name} onChange={this.handleTextBoxChange} />
                 <input type="number" name='product_qty' placeholder="Quantity" value={this.state.product_qty} onChange={this.handleTextBoxChange} />
                 <input type="text" name='product_type' placeholder="Product Type" value={this.state.product_type} onChange={this.handleTextBoxChange} />
@@ -68,11 +83,10 @@ class AddProduct extends Component{
                 {/* need to get user id from global state */}
                 <input type="number" name='user_id' placeholder="user id" value={this.state.user_id} onChange={this.handleTextBoxChange} />
 
-                <button onClick={this.handleSave}>Add Product</button>
-
+                <button onClick={this.handleUpdate}>Add Product</button>
             </div>
         )
     }
-
 }
-export default withRouter(AddProduct)
+
+export default withRouter(UpdateProduct)

@@ -13,6 +13,9 @@ import Registration from './components/Registration'
 import ProductDisplay from './components/ProductDisplay'
 import AddProduct from './components/AddProduct';
 import ProductDetails from './components/ProductDetails'
+import { ComingSoon } from './components/ComingSoon';
+import UserProductDisplay from './components/UserProductDisplay'
+import UpdateProduct from './components/UpdateProduct';
 
 
 const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
@@ -31,8 +34,11 @@ ReactDOM.render(
                     <Route path='/login' exact component ={Login} />
                     <Route path='/register' component={Registration} />
                     <Route path='/product-display' component={ProductDisplay} />
+                    <Route path='/user-products' component={UserProductDisplay} />
                     <Route path='/add-product' component={AddProduct} />
                     <Route path='/product/product-details/:id' component={ProductDetails} />
+                    <Route path='/coming-soon' component={ComingSoon} />
+                    <Route path='/product/update-product/:id' component={UpdateProduct} />
                 </Switch>
             </BaseLayout>
         </BrowserRouter>

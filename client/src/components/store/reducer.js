@@ -1,7 +1,8 @@
 const initialState = {
     products: [],
     isAuthenticated: false,
-    product_id: null
+    product_id: null,
+    user_id: 2
 
 }
 
@@ -12,6 +13,11 @@ const reducer = (state = initialState, action) => {
         //         ...state,
         //         product_id: action.payload
         //     }
+        case 'LOGGED_IN_USER_ID':
+            return {
+                ...state,
+                user_id: action.payload
+            }
         default: 
             return {
                 ...state
