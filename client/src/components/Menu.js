@@ -11,6 +11,7 @@ const useStyles = makeStyles(theme => ({
     toolbarSecondary: {
       justifyContent: 'space-between',
       overflowX: 'auto',
+      borderTop: `1px solid ${theme.palette.divider}`,
     },
     toolbarLink: {
       padding: theme.spacing(1),

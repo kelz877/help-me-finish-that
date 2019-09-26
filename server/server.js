@@ -9,10 +9,11 @@ const jwt = require('jsonwebtoken')
 app.use(express.json())
 const account = require('./routes/account')
 const product = require('./routes/product')
-
+const deals = require('./routes/deals')
 
 app.use('/account', account)
 app.use('/product', product)
+app.use('/deals', deals)
 
 
 

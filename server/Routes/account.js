@@ -95,8 +95,9 @@ router.post('/login', (req, res) => {
                 if(response){
                     var token = jwt.sign({username: username},process.env.JWT_SECRET_KEY);
                     var user_id = user.id
-                    res.json({token: token, user_id: user_id})
-                    // console.log(response)
+                    
+                    res.json({token: token, user_id: user_id, username: username})
+                    console.log(response)
                     // res.send({message: "You are logged in!"})
                 }else{
                     res.send({message: "Wrong username or password"})
