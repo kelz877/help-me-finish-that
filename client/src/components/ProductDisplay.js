@@ -38,15 +38,18 @@ const useStyles = makeStyles(theme => ({
 function ProductDisplay(props){
     const [products, setProducts] = useState([])
     const classes = useStyles();
-
+    
     const fetchProducts = () => {
-        axios.get('http://localhost:8080/product')
+        console.log(props.user_id)
+        const userID = props.user_id
+        axios.get(`http://localhost:8080/product/others-products/${userID}`)
         .then(response => {
             console.log(response.data)
             setProducts(response.data)
         })
     }
     useEffect(() => {
+        
         fetchProducts()
     }, [])
 
@@ -74,6 +77,9 @@ function ProductDisplay(props){
                                         <Link to={`/product/product-details/${product.id}`} ><Button size="small" color="primary">
                                             View Details
                                         </Button></Link>
+                                        <Link to={`/product/product-details/${product.id}`} ><Button size="small" color="primary">
+                                            I want to finish this!
+                                        </Button></Link>
                                     </CardActions>
                                 </Card>
                             </Grid>
@@ -87,10 +93,10 @@ function ProductDisplay(props){
 
     )
 }
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         getProductDetails: (id) => dispatch({payload: id, type: 'PRODUCT_DETAILS'})
-//     }
-// }
+const mapStateToProps = (state) => {
+    return {
+        user_id: state.user_id
+    }
+}
 
-export default ProductDisplay
+export default connect(mapStateToProps, null)(ProductDisplay)

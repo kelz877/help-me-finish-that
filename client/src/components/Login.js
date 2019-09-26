@@ -63,9 +63,12 @@ function Login(props){
             console.log(response.data)
             //console.log(response.data.user_id)
             const user_id = response.data.user_id
+            const username = response.data.username
             props.getUserId(user_id)
+            props.getUsername(username)
+            props.onAuthenticated(token)
         }).then(response => {
-            props.history.push('/product-display')
+            props.history.push('/user-products')
         })
     }
     const handleTextChange = (e) => {
@@ -156,7 +159,9 @@ function Login(props){
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getUserId: (user_id) => dispatch({payload: user_id, type: 'LOGGED_IN_USER_ID'})
+        getUserId: (user_id) => dispatch({payload: user_id, type: 'LOGGED_IN_USER_ID'}),
+        onAuthenticated: (token) => dispatch({type: 'ON_AUTHENTICATED', token: token}),
+        getUsername: (username) => dispatch({payload: username, type: 'LOGGED_IN_USERNAME'}),
     }
 }
 

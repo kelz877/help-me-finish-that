@@ -16,7 +16,7 @@ import ProductDetails from './components/ProductDetails'
 import { ComingSoon } from './components/ComingSoon';
 import UserProductDisplay from './components/UserProductDisplay'
 import UpdateProduct from './components/UpdateProduct';
-
+import RequireAuth from './components/RequireAuth'
 
 const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
@@ -33,12 +33,12 @@ ReactDOM.render(
                 <Switch>
                     <Route path='/login' exact component ={Login} />
                     <Route path='/register' component={Registration} />
-                    <Route path='/product-display' component={ProductDisplay} />
-                    <Route path='/user-products' component={UserProductDisplay} />
-                    <Route path='/add-product' component={AddProduct} />
-                    <Route path='/product/product-details/:id' component={ProductDetails} />
-                    <Route path='/coming-soon' component={ComingSoon} />
-                    <Route path='/product/update-product/:id' component={UpdateProduct} />
+                    <Route path='/product-display' component={RequireAuth(ProductDisplay)} />
+                    <Route path='/user-products' component={RequireAuth(UserProductDisplay)} />
+                    <Route path='/add-product' component={RequireAuth(AddProduct)} />
+                    <Route path='/product/product-details/:id' component={RequireAuth(ProductDetails)} />
+                    <Route path='/coming-soon' component={RequireAuth(ComingSoon)} />
+                    <Route path='/product/update-product/:id' component={RequireAuth(UpdateProduct)} />
                 </Switch>
             </BaseLayout>
         </BrowserRouter>

@@ -4,7 +4,7 @@ const models = require('../models')
 router.use(express.json())
 const cors = require('cors')
 router.use(cors())
-router.use(express.json())
+const Sequelize = require('sequelize')
 
 //add product
 router.post('/add-product', (req, res) => {
@@ -30,6 +30,23 @@ router.get('/', (req, res) => {
     models.Product.findAll().then(products =>{
         res.json(products)
     } )
+})
+
+//view not my products
+router.get('/others-products/:id', (req, res) => {
+    const user_id = req.params.id
+    const Op = Sequelize.Op
+
+    models.Product.findAll({
+        where:{
+            user_id: {
+                [Op.ne]: user_id
+            }
+            
+        }
+    }).then(product => {
+        res.json(product)
+    })
 })
 
 
