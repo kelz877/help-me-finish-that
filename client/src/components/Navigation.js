@@ -50,8 +50,11 @@ function Navigation(props){
                     className={classes.toolbarLink}
                     >
                     Register</NavLink>}
+                    {props.authenticated ? <p variant="body2" 
+                    className={classes.toolbarLink} >Welcome, {props.username}!   </p> : null}
+
                     {props.authenticated ? <NavLink variant="body2" 
-                    className={classes.toolbarLink} to='/'>Account</NavLink> : null}
+                    className={classes.toolbarLink} to='/'>   Account</NavLink> : null}
 
 
                     
@@ -67,7 +70,8 @@ function Navigation(props){
 
 const mapStateToProps = (state) => {
     return {
-        authenticated: state.isAuthenticated //is authenticated is coming from global redux state
+        authenticated: state.isAuthenticated, //is authenticated is coming from global redux state
+        username: state.username
     }
 }
 const mapDispatchToProps = (dispatch) => {

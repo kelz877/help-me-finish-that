@@ -3,12 +3,16 @@ import React from 'react'
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import teal from '@material-ui/core/colors/teal';
+import { borderBottom } from '@material-ui/system';
 
-
+const color1 = teal[200]
+const color2 = teal[50]
 const useStyles = makeStyles(theme => ({
 
     heroContent: {
-      backgroundColor: theme.palette.background.paper,
+      background: `linear-gradient(to right bottom, ${color1}, ${color2})`,
+
       padding: theme.spacing(8, 0, 6),
     },
    
@@ -18,7 +22,7 @@ export function Banner() {
     const classes = useStyles();
     return (
         <div className={classes.heroContent}>
-        <Container maxWidth="sm">
+        <Container maxWidth="sm" >
           <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
             Help Me Finish That!
           </Typography>
@@ -30,3 +34,4 @@ export function Banner() {
 
     )
 }
+
