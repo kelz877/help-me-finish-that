@@ -32,26 +32,51 @@ router.post('/add-deal', (req, res) => {
     })
 })
 
-//view my deals as owner
+//view my deals as owner - message receiver
 
 router.get('/my-deals/:product_owner_id', (req, res) => {
     const product_owner_id = req.params.product_owner_id
     models.Deal.findAll({
         where: {
             product_owner_id: product_owner_id
-        }
+        },
+        include: [
+            {
+                model: models.Product,
+                as: 'Product',
+                attributes: ["product_name", "product_qty", 'product_image', 'product_description', 'user_description']
+            },
+            {
+                model: models.User, 
+                as: "Product_Buyer",
+                attributes: ["username"]
+            }
+        ]
     }).then(deals => {
         res.json(deals)
     })
 })
 
-//view my deals as buyer
+//view my deals as buyer - message sender
 router.get('/my-finishes/:product_buyer_id', (req, res) => {
     const product_buyer_id = req.params.product_buyer_id
     models.Deal.findAll({
         where: {
             product_buyer_id: product_buyer_id
+        },
+        include: [
+        {
+            model: models.Product,
+            as: 'Product',
+            attributes: ["product_name", "product_qty", 'product_image', 'product_description', 'user_description']
+        },
+        {
+            model: models.User, 
+            as: "Product_Owner",
+            attributes: ["username"]
         }
+
+        ]
     }).then(deals => {
         res.json(deals)
     })
