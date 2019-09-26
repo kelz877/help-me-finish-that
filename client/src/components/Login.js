@@ -15,9 +15,13 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import grey from '@material-ui/core/colors/grey';
+import teal from '@material-ui/core/colors/teal';
+import orange from '@material-ui/core/colors/orange';
 
-
+const tealOne = teal[200]
+const tealTwo = teal[300]
 const color = grey[100]
+const lockColor = orange[400]
 const useStyles = makeStyles(theme => ({
     '@global': {
       body: {
@@ -32,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     },
     avatar: {
       margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main,
+      backgroundColor: lockColor,
     },
     form: {
       width: '100%', // Fix IE 11 issue.
@@ -40,6 +44,7 @@ const useStyles = makeStyles(theme => ({
     },
     submit: {
       margin: theme.spacing(3, 0, 2),
+      backgroundColor: tealTwo
     },
   }));
 
@@ -123,7 +128,7 @@ function Login(props){
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
+            
             className={classes.submit}
             onClick={() => handleLogin()}
           >
@@ -137,7 +142,7 @@ function Login(props){
             </Grid>
             <Grid item>
               <Link href="/register" variant="body2">
-                {"Don't have an account? Sign Up"}
+                Don't have an account? Sign Up
               </Link>
             </Grid>
           </Grid>

@@ -13,10 +13,10 @@ import Registration from './components/Registration'
 import ProductDisplay from './components/ProductDisplay'
 import AddProduct from './components/AddProduct';
 import ProductDetails from './components/ProductDetails'
-import { ComingSoon } from './components/ComingSoon';
 import UserProductDisplay from './components/UserProductDisplay'
 import UpdateProduct from './components/UpdateProduct';
 import RequireAuth from './components/RequireAuth'
+import UserMessageDisplay from './components/Messages'
 
 const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
@@ -37,7 +37,7 @@ ReactDOM.render(
                     <Route path='/user-products' component={RequireAuth(UserProductDisplay)} />
                     <Route path='/add-product' component={RequireAuth(AddProduct)} />
                     <Route path='/product/product-details/:id' component={RequireAuth(ProductDetails)} />
-                    <Route path='/coming-soon' component={RequireAuth(ComingSoon)} />
+                    <Route path='/messages' component={RequireAuth(UserMessageDisplay)} />
                     <Route path='/product/update-product/:id' component={RequireAuth(UpdateProduct)} />
                 </Switch>
             </BaseLayout>

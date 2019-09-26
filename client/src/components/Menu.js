@@ -24,15 +24,7 @@ const useStyles = makeStyles(theme => ({
 
   }));
 
-const pages = [
-    'Products',
-    'My Products',
-    'Add Product',
-    'Produce',
-    'Tasks',
-    'Community',
-    'Discussion'
-]
+
 
 function Menu(props){
     const classes = useStyles();
@@ -68,7 +60,7 @@ function Menu(props){
                             Add Product
                         </NavLink> : null}
       
-                        {props.authenticated ? <NavLink variant="body2" className={classes.toolbarLink} to='/'>Messages</NavLink> : null}
+                        {props.authenticated ? <NavLink variant="body2" className={classes.toolbarLink} to='/messages'>Messages</NavLink> : null}
 
                         {props.authenticated ? <NavLink variant="body2" className={classes.toolbarLink} to='/'>Archived Products</NavLink> : null}
                     </Toolbar>
