@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-
+import {connect} from 'react-redux'
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
 
 function AddProduct(props){
     const classes = useStyles();
-    const [product, setProduct] = useState({product_name: '', product_qty: '', product_type: '', product_image: '', product_description: '', user_description: '', lisitng_expiration: '', user_id: ''})
+    const [product, setProduct] = useState({product_name: '', product_qty: '', product_type: '', product_image: '', product_description: '', user_description: '', lisitng_expiration: '', user_id: props.user_id})
 
 
     const handleSave = () => {
@@ -50,7 +50,7 @@ function AddProduct(props){
                 product_description: product.product_description,
                 user_description: product.user_description,
                 lisitng_expiration: product.lisitng_expiration,
-                user_id: product.user_id
+                user_id: props.user_id
             })
         })
         .then(response => {
@@ -149,21 +149,12 @@ function AddProduct(props){
             <TextField
                 id="outlined-name"
                 label="Product Image"
+                fullWidth
                 className={classes.textField}
                 margin="normal"
                 variant="outlined"
                 helperText="Add an Image of the Product!"
                 name='product_image'
-                onChange={(e) => handleTextBoxChange(e)} 
-                />
-            <TextField
-                id="outlined-name"
-                label="user id"
-                className={classes.textField}
-                margin="normal"
-                variant="outlined"
-                helperText="remove this field"
-                name='user_id'
                 onChange={(e) => handleTextBoxChange(e)} 
                 />
                 </Grid>
@@ -178,11 +169,11 @@ function AddProduct(props){
                 </Button>
             </Container>
         )
-
-
-            
-        
-    
-
 }
-export default AddProduct
+
+const mapStateToProps = (state) => {
+    return {
+        user_id: state.user_id
+    }
+}
+export default connect(mapStateToProps, null )(AddProduct)

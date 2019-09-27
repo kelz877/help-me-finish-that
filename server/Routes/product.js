@@ -1,11 +1,15 @@
 const express = require('express')
 const router = express.Router()
 const models = require('../models')
-router.use(express.json())
-const cors = require('cors')
-router.use(cors())
-const Sequelize = require('sequelize')
+const multer = require('multer');
 
+const cors = require('cors')
+
+const upload = multer({ dest: 'public/img/users'})
+
+const Sequelize = require('sequelize')
+router.use(express.json())
+router.use(cors())
 //add product
 router.post('/add-product', (req, res) => {
     const product_name = req.body.product_name
@@ -51,8 +55,9 @@ router.get('/others-products/:id', (req, res) => {
 
 
 //update product
-router.post('/update-product/:id', (req, res) => {
+router.post('/update-product/:id', upload.single('photo'), (req, res) => {
     //need to add user authentication
+
     const id = req.params.id
     const product_name = req.body.product_name
     const product_qty = req.body.product_qty
@@ -109,6 +114,50 @@ router.get('/:id', (req, res) => {
         }
     }).then(product => {
         res.json(product)
+    })
+})
+
+//archive a product
+router.post('/user-products/archived/:id', (req, res) => {
+    const id = req.params.id
+
+    const item_active = req.body.item_active    
+    const inactivate_reason = req.body.inactivate_reason
+
+    models.Product.update({
+         item_active, inactivate_reason
+        }, {
+            where: { 
+                id: id
+            }
+        })
+        .then(() => {
+            res.send("Update successful!")
+        }).catch(e=>console.log(e))
+})
+//view archived products
+router.get('/user-products/archived/:user_id', (req, res) => {
+    let user_id = req.params.user_id
+    models.Product.findAll({
+        where: {
+            user_id: user_id,
+            item_active: false
+        }
+    }).then(products =>{
+        res.json(products)
+    })    
+})
+
+//display user's products
+router.get('/user-products/:user_id', (req, res) => {
+    let user_id = req.params.user_id
+    models.Product.findAll({
+        where: {
+            user_id: user_id,
+            item_active: true
+        }
+    }).then(products =>{
+        res.json(products)
     })
 })
 

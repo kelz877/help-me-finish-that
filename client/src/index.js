@@ -17,6 +17,7 @@ import UserProductDisplay from './components/UserProductDisplay'
 import UpdateProduct from './components/UpdateProduct';
 import RequireAuth from './components/RequireAuth'
 import UserMessageDisplay from './components/Messages'
+import ArchivedProductDisplay from './components/ArchivedProducts';
 
 const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
@@ -36,6 +37,7 @@ ReactDOM.render(
                     <Route path='/product-display' component={RequireAuth(ProductDisplay)} />
                     <Route path='/user-products' component={RequireAuth(UserProductDisplay)} />
                     <Route path='/add-product' component={RequireAuth(AddProduct)} />
+                    <Route path='/archived-products' component={RequireAuth(ArchivedProductDisplay)} />
                     <Route path='/product/product-details/:id' component={RequireAuth(ProductDetails)} />
                     <Route path='/messages' component={RequireAuth(UserMessageDisplay)} />
                     <Route path='/product/update-product/:id' component={RequireAuth(UpdateProduct)} />

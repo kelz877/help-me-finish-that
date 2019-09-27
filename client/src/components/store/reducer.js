@@ -3,7 +3,7 @@ const initialState = {
     isAuthenticated: true,
     product_id: null,
     user_id: 5,
-    username: 'kelz'
+    username: "kelz"
 
 }
 

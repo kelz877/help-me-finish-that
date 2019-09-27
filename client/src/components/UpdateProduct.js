@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {withRouter} from 'react-router-dom'
+import {connect} from 'react-redux'
+
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
@@ -33,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 
 function UpdateProduct(props){
     const classes = useStyles();
-    const [product, setProduct] = useState({product_name: '', product_qty: '', product_type: '', product_image: '', product_description: '', user_description: '', lisitng_expiration: '', user_id: ''})
+    const [product, setProduct] = useState({product_name: '', product_qty: '', product_type: '', product_image: '', product_description: '', user_description: '', lisitng_expiration: '', user_id: props.user_id})
 
     const fetchProduct = () => {
         let id = props.match.params.id
@@ -66,7 +68,7 @@ function UpdateProduct(props){
                 product_description: product.product_description,
                 user_description: product.user_description,
                 lisitng_expiration: product.lisitng_expiration,
-                user_id: product.user_id
+                user_id: props.user_id
             })
         })
         .then(response => {
@@ -181,17 +183,6 @@ function UpdateProduct(props){
                 value={product.product_image}
                 onChange={(e) => handleTextBoxChange(e)} 
                 />
-            <TextField
-                id="outlined-name"
-                label="user id"
-                className={classes.textField}
-                margin="normal"
-                variant="outlined"
-                helperText="remove this field"
-                name='user_id'
-                value={product.user_id}
-                onChange={(e) => handleTextBoxChange(e)} 
-                />
                 </Grid>
                 <Button
                     type="submit"
@@ -204,30 +195,14 @@ function UpdateProduct(props){
                 </Button>
             </Container>
             // <div>
-                        
-            //     <input type="text" name='product_name' placeholder="Product Name" value={product.product_name} onChange={(e) => handleTextBoxChange(e)} />
 
-            //     <input type="number" name='product_qty' placeholder="Quantity" value={product.product_qty} onChange={(e) => handleTextBoxChange(e)} />
-
-            //     <input type="text" name='product_type' placeholder="Product Type" value={product.product_type} onChange={(e) => handleTextBoxChange(e)} />
-
-            //     <input type="text" name='product_image' placeholder="Product Image" value={product.product_image} onChange={(e) => handleTextBoxChange(e)} />
-
-            //     <input type="text" name='product_description' placeholder="Product Description" value={product.product_description} onChange={(e) => handleTextBoxChange(e)} />
-
-            //     <input type="text" name='user_description' placeholder="User Description" value={product.user_description} onChange={(e) => handleTextBoxChange(e)} />
-
-            //     <input type="text" name='lisitng_expiration' placeholder="Listing Expiration" value={product.lisitng_expiration} onChange={(e) => handleTextBoxChange(e)} />
-
-                
-                
-            //     <input type="number" name='user_id' placeholder="user id" value={product.user_id} onChange={(e) => handleTextBoxChange(e)} />
-
-
-            //     <button onClick={() => handleUpdate()}>Update Product</button>
-            // </div>
         )
     
 }
+const mapStateToProps = (state) => {
+    return {
+        user_id: state.user_id
+    }
+}
 
-export default withRouter(UpdateProduct)
+export default connect(mapStateToProps, null)(UpdateProduct)
