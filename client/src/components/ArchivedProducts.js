@@ -33,60 +33,30 @@ const useStyles = makeStyles(theme => ({
 
   }));
 
-function UserProductDisplay(props){
-    const [userProducts, setUserProducts] = useState([])
+function ArchivedProductDisplay(props){
+    const [archivedProducts, setArchivedProducts] = useState([])
     const classes = useStyles();
 
     const fetchProducts = () => {
         let user_id = props.user_id
         console.log(user_id)
-        axios.get(`http://localhost:8080/product/user-products/${user_id}`)
+        axios.get(`http://localhost:8080/product/user-products/archived/${user_id}`)
         .then(response => {
             console.log(response.data)
-            setUserProducts(response.data)
+            setArchivedProducts(response.data)
         })
     }
     useEffect(() => {
         fetchProducts()
     }, [props.user_id])
 
-    const deleteProduct = (id) => {
-        fetch('http://localhost:8080/product/delete', {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                id: id
-            })
-        })
-        .then(response => {
-            fetchProducts()
-        })
-    }
-
-    const archiveProduct = (id) => {
-        fetch(`http://localhost:8080/product/user-products/archived/${id}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                item_active : false,
-                inactivate_reason: "user choice to inactivate"
-            })
-        })
-        .then(response => {
-            fetchProducts()
-        })
-    }
-
+   
     return (
         <React.Fragment>
             <CssBaseline />
             <Container className={classes.cardGrid} maxWidth="md">
             <Grid container spacing={4}>
-                {userProducts.map(product => {
+                {archivedProducts.map(product => {
                     return (
                         <Grid item key={product.id} xs={12} sm={6} md={4}>
                         <Card className={classes.card}>
@@ -109,11 +79,7 @@ function UserProductDisplay(props){
                                 </Typography>
                             </CardContent>
                             <CardActions>
-                            <Link to={`/product/update-product/${product.id}`}><Button size="small" color="primary">
-                                    Update Product
-                                </Button></Link>
-                                <Button size="small" color="primary" onClick={() => deleteProduct(product.id)}>Delete Product</Button>
-                                <Button size="small" color="primary" onClick={() => archiveProduct(product.id)}>Archive Product</Button>
+                                <Button size="small" color="primary" >Activate Product</Button>
                             </CardActions>
                         </Card>
                     </Grid>
@@ -134,4 +100,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, null )(withRouter(UserProductDisplay))
+export default connect(mapStateToProps, null )(withRouter(ArchivedProductDisplay))

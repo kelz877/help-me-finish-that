@@ -62,7 +62,7 @@ function Menu(props){
       
                         {props.authenticated ? <NavLink variant="body2" className={classes.toolbarLink} to='/messages'>Messages</NavLink> : null}
 
-                        {props.authenticated ? <NavLink variant="body2" className={classes.toolbarLink} to='/'>Archived Products</NavLink> : null}
+                        {props.authenticated ? <NavLink variant="body2" className={classes.toolbarLink} to='/archived-products'>Archived Products</NavLink> : null}
                     </Toolbar>
                 </Container>
 

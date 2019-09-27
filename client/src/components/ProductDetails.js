@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
 function ProductDetails(props){
     const classes= useStyles();
     const [details, setDetails] = useState({})
-
+    const [message, setMessage] = useState({})
     const [expanded, setExpanded] = React.useState(false);
 
     const handleChange = panel => (event, isExpanded) => {
@@ -61,7 +61,7 @@ function ProductDetails(props){
 
     const fetchProductDetails = () => {
         let id = props.match.params.id
-        console.log(id)
+        
         axios.get(`http://localhost:8080/product/${id}`)
         .then(response => {
             console.log(response.data)
@@ -75,29 +75,69 @@ function ProductDetails(props){
         fetchProductDetails()
     }, [props.id])
 
+    const handleSave = () => {
+      
+      console.log('button clicked to create deal!')
+      let product_buyer_id = props.user_id
+      let product_id = props.match.params.id
+      let product_owner_id = details.user_id
+      console.log(product_owner_id)
+      
+      fetch('http://localhost:8080/deals/add-deal', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: message.message,
+          product_owner_id: product_owner_id, 
+          product_buyer_id: product_buyer_id,
+          product_id: product_id
+        })
+      })
+      .then(fetch(`http://localhost:8080/product/user-products/archived/${product_id}`, {
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json'
+        }, 
+        body: JSON.stringify({
+          item_active : false,
+          inactivate_reason: "user made a deal"
+        })
+      }))
+      .then(response => {
+        props.history.push('/user-products')
+      })
+    }
+
+    const handleTextBoxChange = (e) => {
+      setMessage({
+        ...message,
+        [e.target.name]: e.target.value
+      })
+    }
+
     return (
         
         <Container className={classes.container}>
 
-            <Card className={classes.card}>
-
-                
-                <CardHeader title={details.product_name} subheader={details.lisitng_expiration} />
-                <CardMedia
-                className={classes.media}
-                image={details.product_image}
-                backgroundSize='contain'
-                />
-                <CardContent>
-                    <Typography paragraph>
-                        Product Description: {details.product_description}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        User Description: {details.user_description}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        Product Quantity: {details.product_qty}
-                    </Typography>
+          <Card className={classes.card}>
+            <CardHeader title={details.product_name} subheader={details.lisitng_expiration} />
+            <CardMedia
+            className={classes.media}
+            image={details.product_image}
+            backgroundSize='contain'
+            />
+            <CardContent>
+                <Typography paragraph>
+                    Product Description: {details.product_description}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                    User Description: {details.user_description}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                    Product Quantity: {details.product_qty}
+                </Typography>
          </CardContent>
             <ExpansionPanel expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
         <ExpansionPanelSummary
@@ -126,8 +166,15 @@ function ProductDetails(props){
             className={classes.textField}
             margin="normal"
             variant="outlined"
+            name="message"
+            onChange={(e) => handleTextBoxChange(e)}
         />
-          <Button size="small" color="primary">
+          <input 
+          type="hidden"
+          name="product_owner_id" 
+          value={details.user_id} />
+          <Button size="small" color="primary"
+          onClick={() => handleSave()}>
             Save
           </Button>
         </ExpansionPanelActions>
@@ -144,7 +191,9 @@ function ProductDetails(props){
 
 const mapStateToProps = (state) => {
     return {
-        username: state.username
+        username: state.username,
+        user_id: state.user_id
+
     }
 }
 

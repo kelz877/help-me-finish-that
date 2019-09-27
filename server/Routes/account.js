@@ -5,37 +5,15 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
+const multer = require('multer');
+
 require('dotenv').config()
+const upload = multer({ dest: 'public/img/users'})
 
 router.use(cors())
 router.use(express.json())
 
-//Middleware 
-// router.all('/api/*',(req,res,next) => {
-//     // middle ware 
-//     console.log('middleware called...')
-//     let headers = req.headers['authorization']
-
-//     if(headers) {
-//         const token = headers.split(' ')[1]
-//         var decoded = jwt.verify(token, 'someprivatekey');
-//         if(decoded) {
-//             const username = decoded.username 
-//             // check in the database if the user exists 
-//             const persistedUser = users.find(u => u.username == username)
-//             if(persistedUser) {
-//                 next() 
-//             } else {
-//                 res.json({error: 'Invalid credentials'})
-//             }
-//         } else {
-//             res.json({error: 'Unauthorized access'})
-//         }
-//     } else {
-//         res.json({error: 'Unauthorized access'})
-//     }
-// }
-// )
+//middleware -> upload.single('photo')
 
 
 //user registration route
@@ -110,17 +88,7 @@ router.post('/login', (req, res) => {
     .catch(e=> console.log(e))
 })
 
-//display user's products
-router.get('/user-products/:user_id', (req, res) => {
-    let user_id = req.params.user_id
-    models.Product.findAll({
-        where: {
-            user_id: user_id
-        }
-    }).then(products =>{
-        res.json(products)
-    })
-})
+
 
 
 
