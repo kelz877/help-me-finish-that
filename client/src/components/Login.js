@@ -73,7 +73,7 @@ function Login(props){
             props.getUsername(username)
             props.onAuthenticated(token)
         }).then(response => {
-            props.history.push('/user-products')
+            props.history.push('/product-display')
         })
     }
     const handleTextChange = (e) => {

@@ -1,15 +1,16 @@
 const express = require('express')
 const router = express.Router()
 const models = require('../models')
-const multer = require('multer');
-
+const photoController = require('../utils/photoController')
 const cors = require('cors')
+router.use(express.static('public'))
 
-const upload = multer({ dest: 'public/img/users'})
 
 const Sequelize = require('sequelize')
 router.use(express.json())
 router.use(cors())
+
+
 //add product
 router.post('/add-product', (req, res) => {
     const product_name = req.body.product_name
@@ -30,14 +31,14 @@ router.post('/add-product', (req, res) => {
 })
 
 //view all products 
-router.get('/', (req, res) => {
+router.get('/',  photoController.uploadUserProductPhoto, (req, res) => {
     models.Product.findAll().then(products =>{
         res.json(products)
     } )
 })
 
 //view not my products
-router.get('/others-products/:id', (req, res) => {
+router.get('/others-products/:id', photoController.uploadUserProductPhoto, (req, res) => {
     const user_id = req.params.id
     const Op = Sequelize.Op
 
@@ -53,16 +54,15 @@ router.get('/others-products/:id', (req, res) => {
     })
 })
 
-
+//upload.single('photo'),
 //update product
-router.post('/update-product/:id', upload.single('photo'), (req, res) => {
-    //need to add user authentication
+router.post('/update-product/:id', photoController.uploadUserProductPhoto, (req, res) => {
 
     const id = req.params.id
     const product_name = req.body.product_name
     const product_qty = req.body.product_qty
     const product_type = req.body.product_type
-    const product_image = req.body.product_image
+    const product_image = req.file.file
     const product_description = req.body.product_description
     const user_description = req.body.user_description
     const lisitng_expiration = req.body.lisitng_expiration

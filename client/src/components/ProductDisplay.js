@@ -66,7 +66,7 @@ function ProductDisplay(props){
                                 <Card className={classes.card}>
                                     <CardMedia 
                                     className={classes.cardMedia}
-                                    image={product.product_image}
+                                    image={`http://localhost:8080/product/img/users/${product.product_image}`}
                                     />
                                     <CardContent className={classes.cardContent}>
                                         <Typography gutterBottom variant="h5" component="h2">

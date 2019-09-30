@@ -5,10 +5,9 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
-const multer = require('multer');
+const photoController = require('../utils/photoController')
 
 require('dotenv').config()
-const upload = multer({ dest: 'public/img/users'})
 
 router.use(cors())
 router.use(express.json())
@@ -17,13 +16,13 @@ router.use(express.json())
 
 
 //user registration route
-router.post('/register', async(req, res) => {
+router.post('/register', photoController.uploadUserProductPhoto, async(req, res) => {
     let username = req.body.username
     let password = req.body.password
     let full_name = req.body.full_name
     let email_address = req.body.email_address
     let zip_code = req.body.zip_code
-    let user_image = req.body.user_image
+    let user_image = 'default.jpg'
 
     models.User.findOne({
         where: {

@@ -1,9 +1,9 @@
 const initialState = {
     products: [],
-    isAuthenticated: true,
+    isAuthenticated: false,
     product_id: null,
-    user_id: 5,
-    username: "kelz"
+    user_id: null,
+    username: ""
 
 }
 
