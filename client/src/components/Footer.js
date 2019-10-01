@@ -7,8 +7,6 @@ import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 
 import Link from '@material-ui/core/Link';
-import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
 import Container from '@material-ui/core/Container';
 
 function Copyright() {

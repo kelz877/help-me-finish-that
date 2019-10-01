@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react'
-import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -34,24 +33,26 @@ const useStyles = makeStyles(theme => ({
   }));
 
 function UpdateProduct(props){
+    
     const classes = useStyles();
     const [product, setProduct] = useState({product_name: '', product_qty: '', product_type: '', product_image: '', product_description: '', user_description: '', lisitng_expiration: '', user_id: props.user_id})
 
-    const fetchProduct = () => {
-        let id = props.match.params.id
-        console.log(id)
-        fetch(`http://localhost:8080/product/${id}`)
-        .then(response => response.json())
-        .then(json => {
-            console.log(json)
-            setProduct({
-                ...json
-            })
-        })
-    }
+
     useEffect(() => {
+        const fetchProduct = () => {
+            let id = props.match.params.id
+            console.log(id)
+            fetch(`http://localhost:8080/product/${id}`)
+            .then(response => response.json())
+            .then(json => {
+                console.log(json)
+                setProduct({
+                    ...json
+                })
+            })
+        }
         fetchProduct()
-    }, [])
+    }, [props.match.params.id])
 
     const handleUpdate = () => {
         let id = props.match.params.id
@@ -172,17 +173,6 @@ function UpdateProduct(props){
                 value={product.product_type}
                 onChange={(e) => handleTextBoxChange(e)} 
             /></Grid>
-            <TextField
-                id="outlined-name"
-                label="Product Image"
-                className={classes.textField}
-                margin="normal"
-                variant="outlined"
-                helperText="Add an Image of the Product!"
-                name='product_image'
-                value={product.product_image}
-                onChange={(e) => handleTextBoxChange(e)} 
-                />
                 </Grid>
                 <Button
                     type="submit"

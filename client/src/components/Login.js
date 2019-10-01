@@ -18,7 +18,7 @@ import grey from '@material-ui/core/colors/grey';
 import teal from '@material-ui/core/colors/teal';
 import orange from '@material-ui/core/colors/orange';
 
-const tealOne = teal[200]
+//const tealOne = teal[200]
 const tealTwo = teal[300]
 const color = grey[100]
 const lockColor = orange[400]
