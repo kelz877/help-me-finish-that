@@ -10,7 +10,7 @@ const multerStorage = multer.diskStorage({
         //user-userid-currentTimestamp.jpeg
          
         const ext = file.mimetype.split('/')[1];
-        cb(null, `product-${req.params.id}-${Date.now()}.${ext}`)
+        cb(null, `product-${Date.now()}-${Date.now()}.${ext}`)
     }
 });
 const multerFilter = (req, file, cb) => {

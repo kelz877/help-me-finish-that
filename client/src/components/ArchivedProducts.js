@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
-import {withRouter, Link} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 import axios from 'axios'
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -37,16 +37,19 @@ function ArchivedProductDisplay(props){
     const [archivedProducts, setArchivedProducts] = useState([])
     const classes = useStyles();
 
-    const fetchProducts = () => {
-        let user_id = props.user_id
-        console.log(user_id)
-        axios.get(`http://localhost:8080/product/user-products/archived/${user_id}`)
-        .then(response => {
-            console.log(response.data)
-            setArchivedProducts(response.data)
-        })
-    }
+    
     useEffect(() => {
+        const fetchProducts = () => {
+                let user_id = props.user_id
+                console.log(user_id)
+                axios.get(`http://localhost:8080/product/user-products/archived/${user_id}`)
+                .then(response => {
+                    console.log(response.data)
+                    setArchivedProducts(response.data)
+                })
+            }        
+
+
         fetchProducts()
     }, [props.user_id])
 

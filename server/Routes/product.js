@@ -12,11 +12,11 @@ router.use(cors())
 
 
 //add product
-router.post('/add-product', (req, res) => {
+router.post('/add-product', photoController.uploadUserProductPhoto,(req, res) => {
     const product_name = req.body.product_name
     const product_qty = req.body.product_qty
     const product_type = req.body.product_type
-    const product_image = req.body.product_image
+    const product_image = req.file.filename
     const product_description = req.body.product_description
     const user_description = req.body.user_description
     const lisitng_expiration = req.body.lisitng_expiration
@@ -31,7 +31,7 @@ router.post('/add-product', (req, res) => {
 })
 
 //view all products 
-router.get('/',  photoController.uploadUserProductPhoto, (req, res) => {
+router.get('/', photoController.uploadUserProductPhoto, (req, res) => {
     models.Product.findAll().then(products =>{
         res.json(products)
     } )
@@ -149,7 +149,7 @@ router.get('/user-products/archived/:user_id', (req, res) => {
 })
 
 //display user's products
-router.get('/user-products/:user_id', (req, res) => {
+router.get('/user-products/:user_id', photoController.uploadUserProductPhoto, (req, res) => {
     let user_id = req.params.user_id
     models.Product.findAll({
         where: {

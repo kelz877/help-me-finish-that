@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useCallback} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
 import axios from 'axios'
@@ -37,7 +37,7 @@ function UserProductDisplay(props){
     const [userProducts, setUserProducts] = useState([])
     const classes = useStyles();
 
-    const fetchProducts = () => {
+    const fetchProducts = useCallback(() => {
         let user_id = props.user_id
         console.log(user_id)
         axios.get(`http://localhost:8080/product/user-products/${user_id}`)
@@ -45,10 +45,10 @@ function UserProductDisplay(props){
             console.log(response.data)
             setUserProducts(response.data)
         })
-    }
-    useEffect(() => {
-        fetchProducts()
     }, [props.user_id])
+    useEffect(() => {
+        fetchProducts();
+    }, [fetchProducts])
 
     const deleteProduct = (id) => {
         fetch('http://localhost:8080/product/delete', {
@@ -92,7 +92,7 @@ function UserProductDisplay(props){
                         <Card className={classes.card}>
                             <CardMedia 
                             className={classes.cardMedia}
-                            image={product.product_image}
+                            image={`http://localhost:8080/product/img/users/${product.product_image}`}
                             />
                             <CardContent className={classes.cardContent}>
                                 <Typography variant="h5" component="h2">

@@ -39,19 +39,19 @@ function ProductDisplay(props){
     const [products, setProducts] = useState([])
     const classes = useStyles();
     
-    const fetchProducts = () => {
-        console.log(props.user_id)
-        const userID = props.user_id
-        axios.get(`http://localhost:8080/product/others-products/${userID}`)
-        .then(response => {
-            console.log(response.data)
-            setProducts(response.data)
-        })
-    }
+
     useEffect(() => {
-        
+        const fetchProducts = () => {
+            //console.log(props.user_id)
+            const userID = props.user_id
+            axios.get(`http://localhost:8080/product/others-products/${userID}`)
+            .then(response => {
+                //console.log(response.data)
+                setProducts(response.data)
+            })
+        };        
         fetchProducts()
-    }, [])
+    }, [props.user_id])
 
 
     return (
@@ -61,6 +61,7 @@ function ProductDisplay(props){
                 <Container className={classes.cardGrid} maxWidth="md">
                 <Grid container spacing={4}>
                     {products.map(product => {
+                        //console.log(product.product_image)
                         return (
                             <Grid item key={product.id} xs={12} sm={6} md={4}>
                                 <Card className={classes.card}>

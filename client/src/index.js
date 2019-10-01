@@ -41,6 +41,7 @@ ReactDOM.render(
                     <Route path='/product/product-details/:id' component={RequireAuth(ProductDetails)} />
                     <Route path='/messages' component={RequireAuth(UserMessageDisplay)} />
                     <Route path='/product/update-product/:id' component={RequireAuth(UpdateProduct)} />
+
                 </Switch>
             </BaseLayout>
         </BrowserRouter>

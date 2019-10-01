@@ -34,21 +34,21 @@ function UserMessageDisplay(props){
    const classes = useStyles();
 
 
-    const fetchMyMessages = () => {
-        let user_id = props.user_id
-        console.log(user_id)
-        axios.get(`http://localhost:8080/deals/my-deals/${user_id}`)
-        .then(response => {
-            setIncoming(response.data)
-        }).then(axios.get(`http://localhost:8080/deals/my-finishes/${user_id}`)
-        .then(response => {
-            //console.log(response.data)
-            setOutgoing(response.data)
-        }))
-    }
+
     useEffect(() => {
+        const fetchMyMessages = () => {
+            let user_id = props.user_id
+            console.log(user_id)
+            axios.get(`http://localhost:8080/deals/my-deals/${user_id}`)
+            .then(response => {
+                setIncoming(response.data)
+            }).then(axios.get(`http://localhost:8080/deals/my-finishes/${user_id}`)
+            .then(response => {
+                //console.log(response.data)
+                setOutgoing(response.data)
+            }))
+        };
         fetchMyMessages()
-        
     }, [props.user_id])
 
     return (

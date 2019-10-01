@@ -59,29 +59,28 @@ function ProductDetails(props){
         setExpanded(isExpanded ? panel : false);
       };
 
-    const fetchProductDetails = () => {
+
+
+    useEffect(() => {
+      const fetchProductDetails = () => {
         let id = props.match.params.id
         
         axios.get(`http://localhost:8080/product/${id}`)
         .then(response => {
             console.log(response.data)
-            setDetails(response.data)
+            const itemInfo = response.data
+            setDetails(itemInfo)
+            console.log(itemInfo) 
         })
-    }
-
-
-    useEffect(() => {
-        console.log("test")
+    };
         fetchProductDetails()
-    }, [props.id])
+    },[props.match.params.id])
 
     const handleSave = () => {
-      
-      console.log('button clicked to create deal!')
       let product_buyer_id = props.user_id
       let product_id = props.match.params.id
       let product_owner_id = details.user_id
-      console.log(product_owner_id)
+      //console.log(product_owner_id)
       
       fetch('http://localhost:8080/deals/add-deal', {
         method: 'POST',
@@ -116,16 +115,16 @@ function ProductDetails(props){
         [e.target.name]: e.target.value
       })
     }
-
+// image != null ? return image : return placeholder
     return (
         
         <Container className={classes.container}>
-
+          {console.log(details)}
           <Card className={classes.card}>
             <CardHeader title={details.product_name} subheader={details.lisitng_expiration} />
             <CardMedia
             className={classes.media}
-            image={details.product_image}
+            image={`http://localhost:8080/product/img/users/${details.product_image}` }
             backgroundSize='contain'
             />
             <CardContent>

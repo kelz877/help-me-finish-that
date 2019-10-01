@@ -29,6 +29,10 @@ const useStyles = makeStyles(theme => ({
       submit: {
         margin: theme.spacing(3, 0, 2),
       },
+    input: {
+        display: 'none',
+        
+    }
   }));
 
 function AddProduct(props){
@@ -46,7 +50,6 @@ function AddProduct(props){
                 product_name: product.product_name,
                 product_qty: product.product_qty,
                 product_type: product.product_type,
-                product_image: product.product_image,
                 product_description: product.product_description,
                 user_description: product.user_description,
                 lisitng_expiration: product.lisitng_expiration,
@@ -146,7 +149,7 @@ function AddProduct(props){
                 name='product_type'
                 onChange={(e) => handleTextBoxChange(e)} 
             /></Grid>
-            <TextField
+            {/* <TextField
                 id="outlined-name"
                 label="Product Image"
                 fullWidth
@@ -156,7 +159,23 @@ function AddProduct(props){
                 helperText="Add an Image of the Product!"
                 name='product_image'
                 onChange={(e) => handleTextBoxChange(e)} 
+                /> */}
+                <input
+                    accept="image/*"
+                    className={classes.input}
+                    id="contained-button-file"
+                    multiple
+                    type="file"
                 />
+                <label htmlFor="contained-button-file">
+                    <Button 
+                    variant="contained" 
+                    component="span" 
+                    className={classes.button}>
+                    Upload Product Image
+                    </Button>
+                </label>
+ 
                 </Grid>
                 <Button
                     type="submit"
@@ -176,4 +195,6 @@ const mapStateToProps = (state) => {
         user_id: state.user_id
     }
 }
+
+
 export default connect(mapStateToProps, null )(AddProduct)
